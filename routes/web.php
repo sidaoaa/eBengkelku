@@ -61,10 +61,12 @@ Route::prefix('event')->group(function () {
 
 // Rute untuk Workshop
 Route::get('workshop', [WorkshopController::class, 'index'])->name('workshop');
+Route::post('books/store', [WorkshopController::class, 'store'])->name('ulasan');
 
 // Rute untuk Produk
 Route::prefix('product')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('product');
+
     Route::get('detail/{id}/{ps}', [ProductController::class, 'detail'])->name('product.detail');
     Route::post('add-to-cart/{id}/{ps}', [ProductController::class, 'add_to_cart'])->name('product.add_to_cart');
 });

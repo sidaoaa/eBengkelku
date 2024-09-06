@@ -22,20 +22,9 @@
       border-color: #dee2e6 #dee2e6 #fff;
     }
 
-    /* .tab-content {
-                                                                                                                                      border: 1px solid #dee2e6;
-                                                                                                                                      border-radius: 0.25rem;
-                                                                                                                                      background-color: #fff;
-                                                                                                                                    } */
-
     .tab-pane {
       padding: 1.5rem;
     }
-
-    /* .profile-section {
-                                                                                                                                        border-radius: 0.5rem;
-                                                                                                                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                                                                                    } */
 
     .boxOrder a {
       display: block;
@@ -210,7 +199,7 @@
           @if ($getOrder->isEmpty())
             <div class="row justify-content-center">
               <div class="col-12 col-md-8 col-lg-6 text-center">
-                <img src="{{ url('logos/empty.png') }}" alt="No Data Found">
+                <img src="{{ url('logos/empty.png') }} "style="width: 350px;" alt="No Data Found">
                 <p>Data saat ini tidak ditemukan.</p>
               </div>
             </div>

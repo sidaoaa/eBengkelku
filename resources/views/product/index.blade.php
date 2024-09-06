@@ -6,6 +6,7 @@
   @php
     $page = request()->has('spareparts') ? 'spareparts' : 'product';
     $search = request()->get('search', '');
+    $categories = DB::table('m_category')->where('is_delete', 'N')->get();
   @endphp
 
   <section class="section section-white"
@@ -23,6 +24,7 @@
       </div>
     </div>
   </section>
+
   @push('css')
     <style>
       .form-control {
@@ -34,54 +36,55 @@
       }
     </style>
   @endpush
+
+  <!-- Bagian Kategori -->
+
+  <!-- Menu Navigasi -->
+
   <section class="section bg-white" style="padding-top: 50px; padding-bottom: 50px;">
     <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="d-flex justify-content-center align-items-center" style="min-height: 50px;">
-            <form method="GET" action="{{ request()->url() }}" style="width: 60%;">
-              <div class="input-group">
-                @if (request()->has('spareparts'))
-                  <input type="hidden" name="spareparts" value="data">
-                @endif
-                <input type="text" name="search" value="{{ $search }}" required maxlength="255"
-                  placeholder="Ketik kata kunci..." class="form-control" style="border-radius: 20px 0 0 20px;">
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-primary" style="border-radius: 0 20px 20px 0;">
-                    <i class='fa-solid fa-search'></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-
-          <p>&nbsp;</p>
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link {{ $page == 'product' ? 'active' : '' }}" href="{{ route('product') }}">Product</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ $page == 'spareparts' ? 'active' : '' }}" href="?spareparts=data">Spare
+                Part</a>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <a href="{{ route('product') }}">
-              <button type="button" class="btn btn-sm {{ $page == 'product' ? 'btn-primary' : 'btn-outline-primary' }}">
-                Product
-              </button>
-            </a>
-            <a href="{{ request()->url() }}?spareparts=data">
-              <button type="button"
-                class="btn btn-sm {{ $page == 'spareparts' ? 'btn-primary' : 'btn-outline-primary' }}">
-                Spare Parts
-              </button>
-            </a>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card h-100;">
+              <div class="card-body">
+                <div class="card-title text-primary">
+                  <strong>Categories</strong>
+                </div>
+                <p>&nbsp;</p>
+                <ul class="list-group">
+                  @foreach ($categories as $category)
+                    <li class="list-group-item list-group-item-action d-flex align-items-center">
+                      <img src="{{ url('logos/icon.png') }}" class="me-2" style="width: 25px;">
+                      <a href="#" class="stretched-link text-decoration-none text-dark" id="ellipsis">
+                        {{ $category->nama_category }}
+                      </a>
+                    </li>
+                  @endforeach
+                </ul>
+              </div>
+            </div>
             <p>&nbsp;</p>
           </div>
         </div>
-      </div>
 
-      @if ($page === 'spareparts')
-        @include('product.spareparts')
-      @endif
-    </div>
+        @if (request()->has('spareparts'))
+          @include('product.spareparts')
+        @endif
+      </div>
   </section>
 @endsection

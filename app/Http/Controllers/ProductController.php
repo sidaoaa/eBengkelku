@@ -17,9 +17,10 @@ class ProductController extends Controller
     {
         $sparePart = DB::table('m_barang')->where('id_barang', $id)->first();
         $selectBarang = $is;
-
-        return view('produk.product_detail', compact('sparePart', 'selectBarang'));
+    
+        return view('product.product_detail', compact('sparePart', 'selectBarang'));
     }
+    
 
     public function addToCart($id, $ps, Request $request)
     {
