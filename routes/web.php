@@ -17,6 +17,8 @@ use App\Http\Controllers\ServiceSellerController;
 use App\Http\Controllers\SparePartSellerController;
 use App\Http\Controllers\ProductSellerController;
 use App\Http\Controllers\UsedCarSellerController;
+use App\Http\Controllers\MySaleController;
+use App\Http\Controllers\InvoiceController;
 
 
 /*
@@ -62,6 +64,11 @@ Route::prefix('event')->group(function () {
 // Rute untuk Workshop
 Route::get('workshop', [WorkshopController::class, 'index'])->name('workshop');
 Route::post('books/store', [WorkshopController::class, 'store'])->name('ulasan');
+// Route::get('/workshop/setting', [WorkshopSellerController::class, 'index'])->name('workshop.setting');
+// Route::get('/workshop/create', [WorkshopSellerController::class, 'create'])->name('workshop.create');
+// Route::post('save', [WorkshopSellerController::class, 'save'])->name('workshop_seller.save');
+// Route::post('/workshop/pagination', [WorkshopSellerController::class, 'pagination'])->name('workshop.pagination');
+// Route::post('/workshop/delete', [WorkshopSellerController::class,'delete'])->name('workshop.delete');
 
 // Rute untuk Produk
 Route::prefix('product')->group(function () {
@@ -69,6 +76,16 @@ Route::prefix('product')->group(function () {
 
     Route::get('detail/{id}/{ps}', [ProductController::class, 'detail'])->name('product.detail');
     Route::post('add-to-cart/{id}/{ps}', [ProductController::class, 'add_to_cart'])->name('product.add_to_cart');
+});
+
+// Rute untuk Penjual Produk
+Route::prefix('product_seller')->group(function () {
+    Route::post('pagination', [ProductSellerController::class, 'pagination'])->name('product_seller.pagination');
+    Route::post('save', [ProductSellerController::class, 'save'])->name('product_seller.save');
+    Route::post('update', [ProductSellerController::class, 'update'])->name('product_seller.update');
+    Route::post('delete', [ProductSellerController::class, 'delete'])->name('product_seller.delete');
+    Route::get('product/setting', [ProductSellerController::class, 'index'])->name('product.setting');
+    Route::get('product/create', [ProductSellerController::class, 'create'])->name('product.create');
 });
 
 // Rute untuk Mobil Bekas
@@ -79,8 +96,6 @@ Route::prefix('used_car')->group(function () {
     Route::post('filter', [UsedCarController::class, 'filterCar'])->name('filter.car');
 });
 
-
-
 // Rute untuk Profil
 Route::prefix('profile')->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');    
@@ -88,10 +103,16 @@ Route::prefix('profile')->group(function () {
     Route::get('profile/my_order', [ProfileController::class, 'my_order'])->name('my_order');
     Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('profile.update_profile');
     Route::post('upload', [ProfileController::class, 'upload'])->name('profile.upload');
-    Route::post('log', [ProfileController::class, 'log'])->name('profile.log');
-    Route::post('log-sale', [ProfileController::class, 'log_sale'])->name('profile.log_sale');
     Route::post('change_password', [ProfileController::class, 'change_password'])->name('profile.change_password');
 });
+
+// Rute Untuk My Sale
+Route::get('mysale', [MySaleController::class, 'index'])->name('my.sale');
+Route::get('log', [MySaleController::class, 'log'])->name('mysale.log');
+Route::get('log-sale', [MySaleController::class, 'log_sale'])->name('profile.log_sale');
+
+// Rute untuk Invoice
+Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice');
 
 // Rute untuk Keranjang
 Route::prefix('cart')->group(function () {
@@ -116,37 +137,38 @@ Route::prefix('cart')->group(function () {
 //     Route::post('delete', [AddressDeliveryController::class, 'delete'])->name('address_delivery.delete');
 // });
 
-// // Rute untuk Penjual Workshop
-// Route::prefix('workshop_seller')->group(function () {
-//     Route::post('pagination', [WorkshopSellerController::class, 'pagination'])->name('workshop_seller.pagination');
-//     Route::post('save', [WorkshopSellerController::class, 'save'])->name('workshop_seller.save');
-//     Route::post('update', [WorkshopSellerController::class, 'update'])->name('workshop_seller.update');
-//     Route::post('delete', [WorkshopSellerController::class, 'delete'])->name('workshop_seller.delete');
-// });
+// Rute untuk Penjual Workshop
+Route::prefix('workshop_seller')->group(function () {
+    Route::post('pagination', [WorkshopSellerController::class, 'pagination'])->name('workshop_seller.pagination');
+    Route::post('save', [WorkshopSellerController::class, 'save'])->name('workshop_seller.save');
+    Route::post('update', [WorkshopSellerController::class, 'update'])->name('workshop_seller.update');
+    Route::post('delete', [WorkshopSellerController::class, 'delete'])->name('workshop_seller.delete');
+    Route::get('/workshop/setting', [WorkshopSellerController::class, 'index'])->name('workshop.setting');
+    Route::get('/workshop/create', [WorkshopSellerController::class, 'create'])->name('workshop.create');
+    // Route::post('save', [WorkshopSellerController::class, 'save'])->name('workshop_seller.save');
+    // Route::post('/workshop/pagination', [WorkshopSellerController::class, 'pagination'])->name('workshop.pagination');
+    // Route::post('/workshop/delete', [WorkshopSellerController::class,'delete'])->name('workshop.delete');
+});
 
-// // Rute untuk Penjual Service
-// Route::prefix('service_seller')->group(function () {
-//     Route::post('pagination', [ServiceSellerController::class, 'pagination'])->name('services_seller.pagination');
-//     Route::post('save', [ServiceSellerController::class, 'save'])->name('services_seller.save');
-//     Route::post('update', [ServiceSellerController::class, 'update'])->name('services_seller.update');
-//     Route::post('delete', [ServiceSellerController::class, 'delete'])->name('services_seller.delete');
-// });
+// Rute untuk Penjual Service
+Route::prefix('service_seller')->group(function () {
+    Route::post('pagination', [ServiceSellerController::class, 'pagination'])->name('services_seller.pagination');
+    Route::post('save', [ServiceSellerController::class, 'save'])->name('services_seller.save');
+    Route::post('update', [ServiceSellerController::class, 'update'])->name('services_seller.update');
+    Route::post('delete', [ServiceSellerController::class, 'delete'])->name('services_seller.delete');
+    Route::get('service/create', [ServiceSellerController::class, 'create'])->name('service.create');
+    Route::get('service/setting', [ServiceSellerController::class, 'index'])->name('service.setting');
+});
 
-// // Rute untuk Penjual Spare Part
-// Route::prefix('spare_part_seller')->group(function () {
-//     Route::any('pagination', [SparePartSellerController::class, 'pagination'])->name('spare_part_seller.pagination');
-//     Route::post('save', [SparePartSellerController::class, 'save'])->name('spare_part_seller.save');
-//     Route::post('update', [SparePartSellerController::class, 'update'])->name('spare_part_seller.update');
-//     Route::post('delete', [SparePartSellerController::class, 'delete'])->name('spare_part_seller.delete');
-// });
-
-// // Rute untuk Penjual Produk
-// Route::prefix('product_seller')->group(function () {
-//     Route::post('pagination', [ProductSellerController::class, 'pagination'])->name('product_seller.pagination');
-//     Route::post('save', [ProductSellerController::class, 'save'])->name('product_seller.save');
-//     Route::post('update', [ProductSellerController::class, 'update'])->name('product_seller.update');
-//     Route::post('delete', [ProductSellerController::class, 'delete'])->name('product_seller.delete');
-// });
+// Rute untuk Penjual Spare Part
+Route::prefix('spare_part_seller')->group(function () {
+    Route::any('pagination', [SparePartSellerController::class, 'pagination'])->name('spare_part_seller.pagination');
+    Route::post('save', [SparePartSellerController::class, 'save'])->name('spare_part_seller.save');
+    Route::post('update', [SparePartSellerController::class, 'update'])->name('spare_part_seller.update');
+    Route::post('delete', [SparePartSellerController::class, 'delete'])->name('spare_part_seller.delete');
+    Route::get('spare_part/create', [SparePartSellerController::class, 'create'])->name('spare_part.create');
+    Route::get('spare_part/setting', [SparePartSellerController::class, 'index'])->name('spare_part.setting');
+});
 
 // // Rute untuk Penjual Mobil Bekas
 // Route::prefix('used_car_seller')->group(function () {

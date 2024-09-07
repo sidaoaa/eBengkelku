@@ -12,7 +12,6 @@ class ProfileController extends Controller
 {
     public function index()
     {
-
         $page = request('state', '');
     
         $data_pelanggan = DB::table('ebengkel_new_database_pkl.tb_pelanggan')
