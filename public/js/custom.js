@@ -14,3 +14,10 @@ function newTab(URL) {
 setTimeout(function() {
     show(false);
 }, 2000);
+
+function copyLink() {
+    const link = window.location.href;
+    navigator.clipboard.writeText(link).then(() => {
+      alert('Profile link copied to clipboard!');
+    });
+  }

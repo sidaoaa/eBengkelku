@@ -84,7 +84,7 @@ Route::prefix('used_car')->group(function () {
 // Rute untuk Profil
 Route::prefix('profile')->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');    
-    Route::get('profile/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
+    Route::get('profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('profile/my_order', [ProfileController::class, 'my_order'])->name('my_order');
     Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('profile.update_profile');
     Route::post('upload', [ProfileController::class, 'upload'])->name('profile.upload');

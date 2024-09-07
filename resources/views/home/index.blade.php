@@ -92,7 +92,7 @@
       <div class="row">
         <div class="col-md-12">
           <h4 class="text-primary">
-            <i class='fa-regular fa-calendar'></i> Latest Event
+            <i class='fa-regular fa-calendar-alt'></i> Latest Event
           </h4>
           <p>&nbsp;</p>
         </div>
@@ -119,22 +119,23 @@
                 <a href="{{ url()->current() }}?visit={{ $data_event->id_event }}" class="text-dark text-decoration-none">
                   <div class="card h-100 d-flex flex-column">
                     <img src="{{ $data_event->image_cover }}" class="card-img-top" alt="{{ $data_event->nama_event }}"
-                      style="height: 130px; width:auto;">
+                      style="width: 100; height: auto;">
                     <div class="card-body">
                       <h5 class="card-title">{{ $data_event->nama_event }}</h5>
-                      <p class="card-text">
-                        <i class="fas fa-calendar"></i>
+                      <p id="ellipsis">
+                        <i class="fa-regular fa-calendar-alt"></i>
                         {{ date('d F', strtotime($data_event->event_start_date)) }} -
                         {{ date('d F Y', strtotime($data_event->event_end_date)) }}
                       </p>
-                      <p class="card-text">
+                      <p id="ellipsis">
                         <i class="fas fa-map-marker-alt"></i>
                         {{ $data_event->alamat_event }}
                       </p>
-                      <p class="card-text">
+                      <p id="ellipsis">
                         <strong>{{ $harga }}</strong>
                       </p>
                     </div>
+                    <p>&nbsp;</p>
                   </div>
                 </a>
               </div>
@@ -225,25 +226,34 @@
               <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <a href="{{ route('product', ['visit' => $data_spare_part->id_barang]) }}" class="text-decoration-none">
                   <div class="card h-100 d-flex flex-column">
-                    <img class="card-img-top" src="{{ $data_spare_part->gambar }}" alt="Image"
-                      style="width: 100%; height: auto;">
-                    <div class="card-body">
-                      <p class="mb-0"><b>{{ $data_spare_part->nama_barang }}</b></p>
-                      <p class="mb-0">Rp. {{ number_format($data_spare_part->harga_jual) }}</p>
-                      <p>&nbsp;</p>
-                    </div>
+                    @if (is_null($data_spare_part->gambar))
+                      <img class="card-img-top" src="{{ asset('images/image.png') }}" alt="Image"
+                        style="width:100; height: auto;">
+                      <div class="card-body">
+                        <p id="ellipsis"><b>{{ $data_spare_part->nama_barang }}</b></p>
+                        <p class="mb-0">Rp. {{ number_format($data_spare_part->harga_jual) }}</p>
+                      @else
+                        <img class="card-img-top" src="{{ $data_spare_part->gambar }}" alt="Image"
+                          style="width:100; height: auto;">
+                        <div class="card-body">
+                          <p id="ellipsis"><b>{{ $data_spare_part->nama_barang }}</b></p>
+                          <p class="mb-0">Rp. {{ number_format($data_spare_part->harga_jual) }}</p>
+                    @endif
+
+                    &nbsp
                   </div>
-                </a>
               </div>
-            @endforeach
+              </a>
           </div>
-          <div class="col-md-12 text-center">
-            <p>&nbsp;</p>
-            <a href="{{ route('product', ['jenis' => '1']) }}" class="btn btn-sm btn-primary">More Spare
-              Parts</a>
-          </div>
-        @endif
+        @endforeach
       </div>
+      <div class="col-md-12 text-center">
+        <p>&nbsp;</p>
+        <a href="{{ route('product', ['jenis' => '1']) }}" class="btn btn-sm btn-primary">More Spare
+          Parts</a>
+      </div>
+      @endif
+    </div>
     </div>
   </section>
 

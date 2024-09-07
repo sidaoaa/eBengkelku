@@ -235,6 +235,8 @@
   <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
   <!-- owlcarousel JS -->
   <script src="<?= url('owl-carousel/dist') ?>/owl.carousel.min.js"></script>
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.x.x/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Main JS -->
   <script src="{{ asset('js/main.js') }}"></script>
   <!-- Selectize JS -->

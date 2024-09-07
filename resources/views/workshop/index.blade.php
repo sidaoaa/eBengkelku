@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+
   @php
     use Illuminate\Support\Facades\DB;
 
@@ -66,6 +67,16 @@
     ];
   @endphp
 
+  @push('js')
+    <script>
+      function copyLink() {
+        const link = window.location.href;
+        navigator.clipboard.writeText(link).then(() => {
+          alert('Profile link copied to clipboard!');
+        });
+      }
+    </script>
+  @endpush
 
   @if ($visit && !$bengkel)
     <script>
@@ -119,6 +130,7 @@
                   <!-- Rating -->
                   <div class="col-6 col-md-3 mb-3">
                     <h5 class="text-primary"><i class="fa-solid fa-star"></i> Rating</h5>
+                    &nbsp
                     <p class="card-text text-muted">
                       <i class="fa-solid fa-star text-warning"></i>
                       <i class="fa-solid fa-star text-warning"></i>
@@ -133,6 +145,7 @@
                   <!-- Operating Hours -->
                   <div class="col-6 col-md-3 mb-3">
                     <h5 class="text-primary"><i class="fa-solid fa-clock"></i> Operating Hours</h5>
+                    &nbsp
                     <p class="card-text text-muted">
                       {{ $bengkel->jam_operasional ?? 'Not Available' }}
                     </p>
@@ -141,38 +154,36 @@
                   <!-- Contact Information -->
                   <div class="col-6 col-md-3 mb-3">
                     <h5 class="text-primary"><i class="fa-solid fa-phone"></i> Contact</h5>
-                    <p class="card-text text-muted">
-                      <a href="https://wa.me/{{ $bengkel->telp_pelanggan }}" target="_blank" class="text-decoration-none">
-                        <i class="fa-brands fa-whatsapp text-success"></i> Chat via WhatsApp
-                      </a><br>
-                      <a href="mailto:{{ $bengkel->email_pelanggan }}" class="text-decoration-none">
-                        <i class="fa-solid fa-envelope text-danger"></i> Send Email
+                    &nbsp
+                    <div class="d-grid gap-2 d-md-block">
+                      <a href="https://wa.me/{{ $bengkel->telp_pelanggan }}" target="_blank" class="btn btn-success">
+                        <i class="fa-brands fa-whatsapp"></i>
                       </a>
-                    </p>
-                  </div>
+                      <a href="mailto:{{ $bengkel->email_pelanggan }}" class="btn btn-secondary">
+                        <i class="fa-solid fa-envelope"></i>
+                      </a>
+                    </div>
 
-                  <!-- Share Profile -->
+                  </div>
                   <div class="col-6 col-md-3 mb-3">
-                    <h5 class="text-primary"><i class="fa-solid fa-share-alt"></i> Share Profile</h5>
-                    <div>
-                      <button onclick="copyLink()" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-copy"></i>
-                        Copy Profile Link</button>
+                    <h5 class="text-primary"><i class="fa-solid fa-city"></i> Info</h5>
+                    &nbsp
+                    <div class="d-grid gap-2 d-md-block">
+                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#bengkelModal">
+                        <i class="fa-solid fa-circle-info"></i>
+                      </button>
+
+
+                      <button class="btn btn-outline-primary" type="button" onclick="copyLink()">
+                        <i class="fa-solid fa-copy"></i>
+                      </button>
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            @push('js')
-              <script>
-                function copyLink() {
-                  const link = window.location.href;
-                  navigator.clipboard.writeText(link).then(() => {
-                    alert('Profile link copied to clipboard!');
-                  });
-                }
-              </script>
-            @endpush
 
             <!-- Menu Navigasi -->
             <div class="row mb-4">
@@ -279,126 +290,160 @@
                   @endforeach
                 @endif
               @endif
-              <!-- Ulasan Section -->
-              @if ($current_page === 'all' || $current_page === 'ulasan')
-                <div class="col-md-12 mb-3 mt-3">
-                  <h4 class="text-primary"><i class="fa-solid fa-comments"></i> Ulasan</h4>
-                </div>
+              <!-- Modal -->
 
-                @php
-                  // Contoh data ulasan, ini bisa diganti dengan data dari database
-                  $ulasan = [
-                      [
-                          'nama_pelanggan' => 'John Doe',
-                          'rating' => 5,
-                          'komentar' => 'Pelayanan sangat baik dan memuaskan!',
-                          'tanggal' => '2024-09-05',
-                      ],
-                      [
-                          'nama_pelanggan' => 'Jane Smith',
-                          'rating' => 4,
-                          'komentar' => 'Bengkel rapi dan bersih, teknisi ramah.',
-                          'tanggal' => '2024-09-04',
-                      ],
-                  ];
-                @endphp
-
-                @if (!empty($ulasan))
-                  @foreach ($ulasan as $review)
-                    <div class="col-md-12 mb-3">
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">{{ $review['nama_pelanggan'] }}</h5>
-                          <div class="d-flex align-items-center">
-                            @for ($i = 0; $i < 5; $i++)
-                              <i
-                                class="fa-solid fa-star {{ $i < $review['rating'] ? 'text-warning' : 'text-muted' }}"></i>
-                            @endfor
-                            <span class="ml-2 text-muted">{{ $review['rating'] }} / 5.0</span>
-                          </div>
-                          <p class="card-text mt-2">{{ $review['komentar'] }}</p>
-                          <p class="text-muted"><small>{{ date('d M Y', strtotime($review['tanggal'])) }}</small></p>
-                        </div>
-                      </div>
+              <div class="modal fade " id="bengkelModal" tabindex="-1" aria-labelledby="bengkelModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header ">
+                      <h5 class="modal-title" id="bengkelModalLabel">Workshop Description</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                  @endforeach
-                @else
-                  <div class="col-md-12">
+                    <div class="modal-body">
+                      <h5>{{ $bengkel->nama_bengkel }}</h5>
+                      &nbsp
+                      <p><strong>Alamat:</strong> {{ $bengkel->alamat ?? 'Alamat belum tersedia' }}</p>
+                      </br>
+                      <p><strong>Jam Operasional:</strong>
+
+                        {{ $bengkel->jam_operasional ?? 'Jam operasional belum tersedia' }}</p>
+                      </br>
+                      <p><strong>Kontak:</strong> {{ $bengkel->telp_pelanggan ?? 'Kontak tidak tersedia' }}</p>
+                      </br>
+                      <p><strong>Email:</strong> {{ $bengkel->email_pelanggan ?? 'Email tidak tersedia' }}</p>
+                      </br>
+                      <p><strong>Tagline:</strong> <i>{{ $bengkel->tagline_bengkel ?? 'Tidak ada tagline' }}</i></p>
+                    </div>
+                    <div class="modal-footer ">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Ulasan Section -->
+            @if ($current_page === 'all' || $current_page === 'ulasan')
+              <div class="col-md-12 mb-3 mt-3">
+                <h4 class="text-primary"><i class="fa-solid fa-comments"></i> Ulasan</h4>
+              </div>
+
+              @php
+                // Contoh data ulasan, ini bisa diganti dengan data dari database
+                $ulasan = [
+                    [
+                        'nama_pelanggan' => 'John Doe',
+                        'rating' => 5,
+                        'komentar' => 'Pelayanan sangat baik dan memuaskan!',
+                        'tanggal' => '2024-09-05',
+                    ],
+                    [
+                        'nama_pelanggan' => 'Jane Smith',
+                        'rating' => 4,
+                        'komentar' => 'Bengkel rapi dan bersih, teknisi ramah.',
+                        'tanggal' => '2024-09-04',
+                    ],
+                ];
+              @endphp
+
+              @if (!empty($ulasan))
+                @foreach ($ulasan as $review)
+                  <div class="col-md-12 mb-3">
                     <div class="card">
-                      <div class="card-body text-center">
-                        <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
-                        <p>Belum ada ulasan.</p>
+                      <div class="card-body">
+                        <h5 class="card-title">{{ $review['nama_pelanggan'] }}</h5>
+                        <div class="d-flex align-items-center">
+                          @for ($i = 0; $i < 5; $i++)
+                            <i
+                              class="fa-solid fa-star {{ $i < $review['rating'] ? 'text-warning' : 'text-muted' }}"></i>
+                          @endfor
+                          <span class="ml-2 text-muted">{{ $review['rating'] }} / 5.0</span>
+                        </div>
+                        <p class="card-text mt-2">{{ $review['komentar'] }}</p>
+                        <p class="text-muted"><small>{{ date('d M Y', strtotime($review['tanggal'])) }}</small></p>
                       </div>
                     </div>
                   </div>
-                @endif
-              @endif
-            </div>
-          @else
-            <!-- Jika tidak ada parameter 'visit', tampilkan daftar bengkel -->
-            @php
-              $bengkelCount = count($bengkel);
-            @endphp
-
-            @if ($bengkelCount < 1)
-              <div class="row">
+                @endforeach
+              @else
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-body text-center">
                       <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
-                      <p>Data saat ini tidak ditemukan.</p>
+                      <p>Belum ada ulasan.</p>
                     </div>
                   </div>
                 </div>
-              </div>
-            @else
-              <div class="row">
-                <div class="col">
-                  <div class="d-flex justify-content-center align-items-center" style="min-height: 50px;">
-                    <form method="GET" action="{{ request()->url() }}" style="width: 60%;">
-                      <div class="input-group">
-                        @if (request()->has('workshop'))
-                          <input type="hidden" name="workshop" value="data">
-                        @endif
-                        <input type="text" name="search" value="{{ $search }}" required maxlength="255"
-                          placeholder="Ketik kata kunci..." class="form-control" style="border-radius: 20px 0 0 20px;">
-                        <div class="input-group-append">
-                          <button type="submit" class="btn btn-primary" style="border-radius: 0 20px 20px 0;">
-                            <i class='fa-solid fa-search'></i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <p>&nbsp;</p>
-                </div>
-
-                <div class="row">
-                  @foreach ($bengkel as $b)
-                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-                      <div class="card h-100">
-                        <div class="card-img-top"
-                          style="width: 100%; height: 200px; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-image: url('{{ $b->foto_bengkel ?: url('images/image.png') }}');">
-                        </div>
-                        <div class="card-body">
-                          <p id="ellipsis">
-                            <b>{{ $b->nama_bengkel }}</b><br>
-                            <small><i>{{ $b->tagline_bengkel }}</i></small>
-                          </p>
-                          <a href="{{ route('workshop', ['visit' => $b->id_bengkel]) }}" class="stretched-link"></a>
-                        </div>
-                      </div>
-                    </div>
-                  @endforeach
-                </div>
-
-                <div class="row">
-                  <div class="col-md-12 text-center">
-                    {{ $bengkel->appends(request()->input())->links() }}
-                  </div>
-                </div>
-              </div>
+              @endif
             @endif
+          </div>
+        @else
+          <!-- Jika tidak ada parameter 'visit', tampilkan daftar bengkel -->
+          @php
+            $bengkelCount = count($bengkel);
+          @endphp
+
+          @if ($bengkelCount < 1)
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
+                    <p>Data saat ini tidak ditemukan.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @else
+            <div class="row">
+              <div class="col">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 50px;">
+                  <form method="GET" action="{{ request()->url() }}" style="width: 60%;">
+                    <div class="input-group">
+                      @if (request()->has('workshop'))
+                        <input type="hidden" name="workshop" value="data">
+                      @endif
+                      <input type="text" name="search" value="{{ $search }}" required maxlength="255"
+                        placeholder="Ketik kata kunci..." class="form-control" style="border-radius: 20px 0 0 20px;">
+                      <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary" style="border-radius: 0 20px 20px 0;">
+                          <i class='fa-solid fa-search'></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <p>&nbsp;</p>
+              </div>
+
+              <div class="row">
+                @foreach ($bengkel as $b)
+                  <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                      <div class="card-img-top"
+                        style="width: 100%; height: 200px; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-image: url('{{ $b->foto_bengkel ?: url('images/image.png') }}');">
+                      </div>
+                      <div class="card-body">
+                        <p id="ellipsis">
+                          <b>{{ $b->nama_bengkel }}</b><br>
+                          <small><i>{{ $b->tagline_bengkel }}</i></small>
+                        </p>
+                        <a href="{{ route('workshop', ['visit' => $b->id_bengkel]) }}" class="stretched-link"></a>
+                      </div>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  {{ $bengkel->appends(request()->input())->links() }}
+                </div>
+              </div>
+            </div>
+          @endif
       @endif
 
     </div>
