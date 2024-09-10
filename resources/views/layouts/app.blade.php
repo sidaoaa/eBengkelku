@@ -112,7 +112,7 @@
                   </li>
                   <?php if(Session::has('id_pelanggan')){ ?>
                   <li class="nav-item <?= $page == 'profile' ? 'active' : '' ?>">
-                    <a href="<?= route('profile') ?>">
+                    <a href="{{ route('profile', ['visit' => '', 'page' => 'profile']) }}">
                       <i class='fa-solid fa-user sm'></i> Profile
                     </a>
                   </li>

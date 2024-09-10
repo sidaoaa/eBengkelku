@@ -137,7 +137,7 @@
             <i class="fa-solid fa-car-side mx-4"></i><span>Used Car</span>
           </li>
         </a>
-        <a href="../profile" class="block mb-2 items-center">
+        <a href="../profile?visit=&page=profile" class="block mb-2 items-center">
           <li
             class="flex items-center p-4 rounded-md hover:bg-blue-500 hover:text-white {{ request()->routeIs('') ? ' text-white' : '' }}">
             <i class="fa-solid fa-chevron-left mx-4"></i><span>Back</span>

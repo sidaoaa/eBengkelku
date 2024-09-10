@@ -95,7 +95,7 @@ class ProfileController extends Controller
         'nama_pelanggan' => $nama,
         'telp_pelanggan' => $telp,
         'email_pelanggan' => $email,
-        'alamat_pelanggan' => $alamat,
+        // 'alamat_pelanggan' => $alamat,
     ];
 
     // Perform the update
@@ -143,4 +143,116 @@ public function change_password(Request $request)
 
     return back()->with('alert', 'success_Change password success.');
 }   
+public function showProfile()
+{
+    // Get the customer ID from session or any other means
+    $customerId = Session::get('id_pelanggan');
+
+    // Fetch addresses for the customer
+    $addresses = DB::table('tb_alamat_pengiriman')
+        ->where('id_pelanggan', $customerId)
+        ->where('delete_alamat_pengiriman', 'N')
+        ->get();
+
+    // Pass addresses to the view
+    return view('profile.address', ['addresses' => $addresses]);
+}
+
+
+ // Save new address
+ public function save(Request $request)
+ {
+     // Validate incoming request data
+     $request->validate([
+         'nama' => 'required|string|max:255',
+         'kodepos' => 'required|string|max:10',
+         'lat' => 'nullable|numeric',
+         'long' => 'nullable|numeric',
+         'lokasi' => 'required|string|max:255',
+         'status' => 'required|in:active,inactive',
+         'kota' => 'required|integer',
+     ]);
+
+     // Retrieve customer ID from session
+     $pelanggan = session()->get('id_pelanggan');
+
+     // Prepare values to insert
+     $values = [
+         'id_pelanggan' => $pelanggan,
+         'nama_alamat_pengiriman' => $request->nama,
+         'kodepos_alamat_pengiriman' => preg_replace('/\D/', '', $request->kodepos),
+         'lat_alamat_pengiriman' => $request->lat,
+         'long_alamat_pengiriman' => $request->long,
+         'lokasi_alamat_pengiriman' => $request->lokasi,
+         'status_alamat_pengiriman' => $request->status,
+         'id_kota' => $request->kota,
+     ];
+
+     // Insert into database
+     DB::table('tb_alamat_pengiriman')->insert($values);
+
+     // Redirect back to profile with address tab active
+     return redirect()->to('profile.address');
+ }
+
+ // Update existing address
+ public function update(Request $request)
+ {
+     // Validate incoming request data
+     $request->validate([
+         'update' => 'required|integer',
+         'nama' => 'required|string|max:255',
+         'kodepos' => 'required|string|max:10',
+         'lat' => 'nullable|numeric',
+         'long' => 'nullable|numeric',
+         'lokasi' => 'required|string|max:255',
+         'status' => 'required|in:active,inactive',
+         'kota' => 'required|integer',
+     ]);
+
+     // Prepare where and value clauses
+     $where = [
+         'id_alamat_pengiriman' => $request->update,
+         'delete_alamat_pengiriman' => 'N',
+     ];
+
+     $values = [
+         'nama_alamat_pengiriman' => $request->nama,
+         'kodepos_alamat_pengiriman' => preg_replace('/\D/', '', $request->kodepos),
+         'lat_alamat_pengiriman' => $request->lat,
+         'long_alamat_pengiriman' => $request->long,
+         'lokasi_alamat_pengiriman' => $request->lokasi,
+         'status_alamat_pengiriman' => $request->status,
+         'id_kota' => $request->kota,
+     ];
+
+     // Update record in the database
+     DB::table('tb_alamat_pengiriman')->where($where)->update($values);
+
+     return back()->with('alert', 'success_Berhasil diperbarui.');
+ }
+
+ // Soft delete an address
+ public function delete(Request $request)
+ {
+     // Validate the delete request
+     $request->validate([
+         'delete' => 'required|integer',
+     ]);
+
+     // Prepare where and value clauses
+     $where = [
+         'id_alamat_pengiriman' => $request->delete,
+         'delete_alamat_pengiriman' => 'N',
+     ];
+
+     $values = [
+         'delete_alamat_pengiriman' => 'Y',
+     ];
+
+     // Update the record to soft delete
+     DB::table('tb_alamat_pengiriman')->where($where)->update($values);
+
+     return back();
+ }
 }

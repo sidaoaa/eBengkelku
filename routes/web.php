@@ -83,14 +83,23 @@ Route::prefix('used_car')->group(function () {
 
 // Rute untuk Profil
 Route::prefix('profile')->group(function () {
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile');    
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+    // Route::get('profile', [ProfileController::class, 'showProfile'])->name('profile'); 
+    
+    Route::get('profile/address', [ProfileController::class, 'showProfile'])->name('profile.address');    
+    
     Route::get('profile/dashboard', [ProfileController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('profile/my_order', [ProfileController::class, 'my_order'])->name('my_order');
     Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('profile.update_profile');
     Route::post('upload', [ProfileController::class, 'upload'])->name('profile.upload');
-    Route::post('log', [ProfileController::class, 'log'])->name('profile.log');
-    Route::post('log-sale', [ProfileController::class, 'log_sale'])->name('profile.log_sale');
     Route::post('change_password', [ProfileController::class, 'change_password'])->name('profile.change_password');
+  
+
+
+    route::post('/profile/address/save', [ProfileController::class, 'save'])->name('address.save');
+    route::post('/profile/address/save', [ProfileController::class, 'save'])->name('address.save');
+    route::post('/profile/address/update', [ProfileController::class, 'update'])->name('address.update');
+    route::post('/profile/address/delete', [ProfileController::class, 'delete'])->name('address.delete');
 });
 
 // Rute untuk Keranjang
