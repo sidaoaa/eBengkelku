@@ -27,8 +27,13 @@
                 'tb_bengkel.tagline_bengkel',
                 'tb_bengkel.foto_bengkel',
                 'tb_bengkel.foto_cover_bengkel',
-                'tb_pelanggan.telp_pelanggan',
-                'tb_pelanggan.email_pelanggan',
+                'tb_bengkel.whatsapp',
+                'tb_bengkel.tiktok',
+                'tb_bengkel.instagram',
+                'tb_bengkel.open_time',
+
+                'tb_bengkel.close_time',
+                'tb_bengkel.alamat_bengkel',
             )
             ->first();
 
@@ -146,21 +151,27 @@
                   <div class="col-6 col-md-3 mb-3">
                     <h5 class="text-primary"><i class="fa-solid fa-clock"></i> Operating Hours</h5>
                     &nbsp
+                    <div>
+
+                      <td>{{ $bengkel->open_time ?? 'Not Available' }}</td>
+                      <td>-</td>
+                      <td>{{ $bengkel->close_time ?? 'Not Available' }}</td>
+                    </div>
+                    {{-- <p class="card-text text-muted">
+                      {{ $bengkel->open_time ?? 'Not Available' }}
+                    </p> -
                     <p class="card-text text-muted">
-                      {{ $bengkel->jam_operasional ?? 'Not Available' }}
-                    </p>
+                      {{ $bengkel->close_time ?? 'Not Available' }}
+                    </p> --}}
                   </div>
 
                   <!-- Contact Information -->
                   <div class="col-6 col-md-3 mb-3">
                     <h5 class="text-primary"><i class="fa-solid fa-phone"></i> Contact</h5>
                     &nbsp
-                    <div class="d-grid gap-2 d-md-block">
-                      <a href="https://wa.me/{{ $bengkel->telp_pelanggan }}" target="_blank" class="btn btn-success">
-                        <i class="fa-brands fa-whatsapp"></i>
-                      </a>
-                      <a href="mailto:{{ $bengkel->email_pelanggan }}" class="btn btn-secondary">
-                        <i class="fa-solid fa-envelope"></i>
+                    <div class="d-grid gap-2">
+                      <a href="https://wa.me/{{ $bengkel->whatsapp }}" target="_blank" class="btn btn-success">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
                       </a>
                     </div>
 
@@ -304,55 +315,43 @@
                     <div class="modal-body">
                       <h5>{{ $bengkel->nama_bengkel }}</h5>
                       &nbsp
-                      <p><strong>Alamat:</strong> {{ $bengkel->alamat ?? 'Alamat belum tersedia' }}</p>
+                      <p><strong>Alamat:</strong> {{ $bengkel->alamat_bengkel ?? 'Alamat belum tersedia' }}</p>
                       </br>
                       <p><strong>Jam Operasional:</strong>
-                        {{ $bengkel->jam_operasional ?? 'Jam operasional belum tersedia' }}</p>
+                        <td>{{ $bengkel->open_time ?? 'Not Available' }}</td>
+                        <td>-</td>
+                        <td>{{ $bengkel->close_time ?? 'Not Available' }}</td>
+
+                      </p>
                       </br>
-                      <p><strong>Kontak:</strong> {{ $bengkel->telp_pelanggan ?? 'Kontak tidak tersedia' }}</p>
-                      </br>
-                      <p><strong>Email:</strong> {{ $bengkel->email_pelanggan ?? 'Email tidak tersedia' }}</p>
+                      <p><strong>Kontak:</strong> {{ $bengkel->whatsapp ?? 'Kontak tidak tersedia' }}</p>
                       </br>
                       <p><strong>Tagline:</strong> <i>{{ $bengkel->tagline_bengkel ?? 'Tidak ada tagline' }}</i></p>
                       </br>
-
-                      <!-- Social Media Links -->
                       <!-- Social Media Icons -->
                       @php
-                        $bengkel->facebook = $bengkel->facebook ?? null;
+                        $bengkel->tiktok = $bengkel->tiktok ?? null;
                         $bengkel->instagram = $bengkel->instagram ?? null;
-                        $bengkel->twitter = $bengkel->twitter ?? null;
-                        $bengkel->linkedin = $bengkel->linkedin ?? null;
 
                       @endphp
                       <p><strong>Follow Us:</strong></p>
+                      </br>
+
                       <div class="social-media-icons">
-                        @if ($bengkel->facebook)
-                          <a href="{{ $bengkel->facebook }}" target="_blank" class="me-2">
-                            <i class="fab fa-facebook fa-2x"></i>
-                          </a>
-                        @endif
 
                         @if ($bengkel->instagram)
                           <a href="{{ $bengkel->instagram }}" target="_blank" class="me-2">
-                            <i class="fab fa-instagram fa-2x"></i>
+                            <i class="fab fa-instagram fa-xl"></i>
                           </a>
                         @endif
-
-                        @if ($bengkel->twitter)
-                          <a href="{{ $bengkel->twitter }}" target="_blank" class="me-2">
-                            <i class="fab fa-twitter fa-2x"></i>
-                          </a>
-                        @endif
-
-                        @if ($bengkel->linkedin)
-                          <a href="{{ $bengkel->linkedin }}" target="_blank" class="me-2">
-                            <i class="fab fa-linkedin fa-2x"></i>
+                        &nbsp
+                        @if ($bengkel->tiktok)
+                          <a href="{{ $bengkel->tiktok }}" target="_blank" class="me-2">
+                            <i class="fab fa-tiktok fa-lg"></i>
                           </a>
                         @endif
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

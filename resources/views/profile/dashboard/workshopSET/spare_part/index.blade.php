@@ -5,9 +5,9 @@
             <input type="text" id="search" class="h-10 px-4 w-full max-w-md border rounded-md" placeholder="Search">
         </div>
         <div class="mb-4 mt-10">
-            <a href="{{ route('product.create') }}"
-                class="bg-sky-400 text-white flex items-center px-4 font-medium text-xs sm:text-sm md:text-base py-1 sm:py-2 rounded-lg shadow-lg">
-                Add Product
+            <a href="{{ route('spare_part.create') }}"
+                class="bg-sky-400 text-white flex items-center px-4  font-medium text-xs sm:text-sm md:text-base py-1 sm:py-2 rounded-lg shadow-lg">
+                Add Spare Part
             </a>
         </div>
     </div>
@@ -15,6 +15,6 @@
         <img src="{{ url('logos/add.png') }}" class="max-w-56">
     </div>
     <div class="mt-2">
-        <p class="text-center text-sm text-gray-500">Tidak ada Product yang tersedia.</p>
+        <p class="text-center text-sm text-gray-500">Tidak ada Spare Part yang tersedia</p>
     </div>
 @endsection

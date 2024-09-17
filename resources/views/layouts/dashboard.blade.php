@@ -82,7 +82,7 @@
     aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-neutral-100 border-r">
       <ul class="space-y-2 font-medium text-sm">
-        <a href="" class="mb-2">
+        <a href="{{ route('profile.dashboard') }}" class="mb-2">
           <li
             class="flex items-center p-4 rounded-md hover:bg-blue-500 hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white' : '' }}">
             <i class="fa-solid fa-house-chimney mx-3"></i><span>Dashboard</span>
@@ -99,45 +99,56 @@
         </li>
 
         <ul class="space-y-2 ml-8 hidden" id="master-data-menu">
-          <a href="{{ route('workshop') }}" class="mb-2 block items-center">
+          <a href="{{ route('workshop_seller.setting') }}" class="block mb-2 items-center">
             <li
               class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
-              <i class="fa-solid fa-city mx-4"></i><span>Workshop</span>
+              <i class="fa-solid fa-city mx-4"></i><span>My Workshop</span>
             </li>
           </a>
-          <a href="" class="mb-2 block items-center">
+          <a href="{{ route('service.setting') }}" class="mb-2 block items-center">
             <li
-              class="transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.category.index') ? ' text-white' : '' }}">
+              class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
               <i class="fa-solid fa-wrench mx-4"></i><span>Service</span>
             </li>
           </a>
-          <a href="" class="block mb-2 items-center">
+          <a href="{{ route('spare_part.setting') }}" class="block mb-2 items-center">
             <li
-              class="transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.products.index') ? ' text-white' : '' }}">
+              class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
+              <i class="fa-solid fa-boxes-stacked mx-4"></i><span>SpareParts</span>
+            </li>
+          </a>
+          <a href="{{ route('product.setting') }}" class="block mb-2 items-center">
+            <li
+              class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
               <i class="fa-solid fa-dolly mx-4"></i><span>Product</span>
             </li>
           </a>
           <a href="" class="block mb-2 items-center">
             <li
-              class="transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.warehouse.index') ? ' text-white' : '' }}">
-              <i class="fa-solid fa-boxes-stacked mx-4"></i><span>SpareParts</span>
-            </li>
-          </a>
-          <a href="" class="transform transition-all duration-300 hover:translate-x-2 block mb-2 items-center">
-            <li
-              class="flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.warehouse.index') ? ' text-white' : '' }}">
+              class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
               <i class="fa-solid fa-file-pen mx-4"></i><span>Stock Management</span>
             </li>
           </a>
+          <a href="{{ route('invoice') }}" class="block mb-2 items-center">
+            <li
+              class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
+              <i class="fas fa-file-invoice-dollar mx-4"></i><span>Invoice</span>
+            </li>
+          </a>
+          <a href="{{ route('my.sale') }}" class="block mb-2 items-center">
+            <li
+              class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
+              <i class="fas fa-tag mx-4"></i><span>My Sale</span>
+            </li>
+          </a>
         </ul>
-
         <a href="" class="block mb-2 items-center">
           <li
             class="flex items-center p-4 rounded-md hover:bg-blue-500 hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white' : '' }}">
             <i class="fa-solid fa-car-side mx-4"></i><span>Used Car</span>
           </li>
         </a>
-        <a href="../profile?visit=&page=profile" class="block mb-2 items-center">
+        <a href="../profile" class="block mb-2 items-center">
           <li
             class="flex items-center p-4 rounded-md hover:bg-blue-500 hover:text-white {{ request()->routeIs('') ? ' text-white' : '' }}">
             <i class="fa-solid fa-chevron-left mx-4"></i><span>Back</span>
@@ -164,7 +175,6 @@
       var sidebar = document.getElementById('logo-sidebar');
       var hamburgerMenu = document.getElementById('hamburger-menu');
       var mainContent = document.getElementById('main-content');
-
       hamburgerMenu.addEventListener('click', function() {
         sidebar.classList.toggle('sidebar-open');
         sidebar.classList.toggle('sidebar-closed');
@@ -173,7 +183,6 @@
       document.getElementById('master-data-toggle').addEventListener('click', function() {
         var submenu = document.getElementById('master-data-menu');
         var icon = document.getElementById('master-data-icon');
-
         if (submenu.classList.contains('expanded')) {
           submenu.classList.remove('expanded');
           submenu.style.height = '0';
