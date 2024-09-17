@@ -224,7 +224,7 @@
                 @if ($services && count($services) > 0)
                   @foreach ($services as $service)
                     <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                      <div class="card h-100">
+                      <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                         <img class="card-img-top" src="{{ $service->foto_services }}" alt="Image"
                           style="width: 100%;">
                         <div class="card-body">
@@ -235,7 +235,7 @@
                   @endforeach
                 @else
                   <div class="col-md-12">
-                    <div class="card">
+                    <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                       <div class="card-body text-center">
                         <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
                         <p>Data saat ini tidak ditemukan.</p>
@@ -249,7 +249,7 @@
                   <h4 class="text-primary"><i class="fa-solid fa-dolly"></i> Product</h4>
                 </div>
                 <div class="col-md-12 mb-3">
-                  <div class="card">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     <div class="card-body text-center">
                       <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
                       <p>Data saat ini tidak ditemukan.</p>
@@ -265,7 +265,7 @@
 
                 @if ($spareparts->isEmpty())
                   <div class="col-md-12">
-                    <div class="card">
+                    <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                       <div class="card-body text-center">
                         <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
                         <p>Data saat ini tidak ditemukan.</p>
@@ -275,7 +275,7 @@
                 @else
                   @foreach ($spareparts as $sparepart)
                     <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                      <div class="card h-100;">
+                      <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                         <img src="{{ asset('storage/' . $sparepart->foto_spare_part) }}" class="card-img-top"
                           alt="{{ $sparepart->nama_spare_part }}">
                         <div class="card-body">
@@ -298,7 +298,8 @@
                   <div class="modal-content">
                     <div class="modal-header ">
                       <h5 class="modal-title" id="bengkelModalLabel">Workshop Description</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <h5 class="text-secondary"><i class="fa-solid fa-circle-xmark" data-bs-dismiss="modal"></i>
+                      </h5>
                     </div>
                     <div class="modal-body">
                       <h5>{{ $bengkel->nama_bengkel }}</h5>
@@ -306,7 +307,6 @@
                       <p><strong>Alamat:</strong> {{ $bengkel->alamat ?? 'Alamat belum tersedia' }}</p>
                       </br>
                       <p><strong>Jam Operasional:</strong>
-
                         {{ $bengkel->jam_operasional ?? 'Jam operasional belum tersedia' }}</p>
                       </br>
                       <p><strong>Kontak:</strong> {{ $bengkel->telp_pelanggan ?? 'Kontak tidak tersedia' }}</p>
@@ -314,10 +314,45 @@
                       <p><strong>Email:</strong> {{ $bengkel->email_pelanggan ?? 'Email tidak tersedia' }}</p>
                       </br>
                       <p><strong>Tagline:</strong> <i>{{ $bengkel->tagline_bengkel ?? 'Tidak ada tagline' }}</i></p>
+                      </br>
+
+                      <!-- Social Media Links -->
+                      <!-- Social Media Icons -->
+                      @php
+                        $bengkel->facebook = $bengkel->facebook ?? null;
+                        $bengkel->instagram = $bengkel->instagram ?? null;
+                        $bengkel->twitter = $bengkel->twitter ?? null;
+                        $bengkel->linkedin = $bengkel->linkedin ?? null;
+
+                      @endphp
+                      <p><strong>Follow Us:</strong></p>
+                      <div class="social-media-icons">
+                        @if ($bengkel->facebook)
+                          <a href="{{ $bengkel->facebook }}" target="_blank" class="me-2">
+                            <i class="fab fa-facebook fa-2x"></i>
+                          </a>
+                        @endif
+
+                        @if ($bengkel->instagram)
+                          <a href="{{ $bengkel->instagram }}" target="_blank" class="me-2">
+                            <i class="fab fa-instagram fa-2x"></i>
+                          </a>
+                        @endif
+
+                        @if ($bengkel->twitter)
+                          <a href="{{ $bengkel->twitter }}" target="_blank" class="me-2">
+                            <i class="fab fa-twitter fa-2x"></i>
+                          </a>
+                        @endif
+
+                        @if ($bengkel->linkedin)
+                          <a href="{{ $bengkel->linkedin }}" target="_blank" class="me-2">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                          </a>
+                        @endif
+                      </div>
                     </div>
-                    <div class="modal-footer ">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -326,7 +361,7 @@
 
             <!-- Ulasan Section -->
             @if ($current_page === 'all' || $current_page === 'ulasan')
-              <div class="col-md-12 mb-3 mt-3">
+              <div class="col-md-1` mb-3 mt-3">
                 <h4 class="text-primary"><i class="fa-solid fa-comments"></i> Ulasan</h4>
               </div>
 
@@ -350,8 +385,8 @@
 
               @if (!empty($ulasan))
                 @foreach ($ulasan as $review)
-                  <div class="col-md-12 mb-3">
-                    <div class="card">
+                  <div class="col-md-1` mb-3">
+                    <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                       <div class="card-body">
                         <h5 class="card-title">{{ $review['nama_pelanggan'] }}</h5>
                         <div class="d-flex align-items-center">
@@ -369,7 +404,7 @@
                 @endforeach
               @else
                 <div class="col-md-12">
-                  <div class="card">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     <div class="card-body text-center">
                       <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
                       <p>Belum ada ulasan.</p>
@@ -421,9 +456,9 @@
               <div class="row">
                 @foreach ($bengkel as $b)
                   <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100">
+                    <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                       <div class="card-img-top"
-                        style="width: 100%; height: 200px; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-image: url('{{ $b->foto_bengkel ?: url('images/image.png') }}');">
+                        style="width: 100%; height: 230px; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-image: url('{{ $b->foto_bengkel ?: url('images/image.png') }}');">
                       </div>
                       <div class="card-body">
                         <p id="ellipsis">

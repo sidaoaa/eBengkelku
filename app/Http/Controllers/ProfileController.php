@@ -12,16 +12,22 @@ class ProfileController extends Controller
 {
     public function index()
     {
-
         $page = request('state', '');
     
+        // Fetch customer data
         $data_pelanggan = DB::table('ebengkel_new_database_pkl.tb_pelanggan')
             ->where('id_pelanggan', Session::get('id_pelanggan'))
             ->first();
     
-        return view('profile.index', compact('data_pelanggan', 'page'));
+        // Fetch addresses for the customer
+        $addresses = DB::table('tb_alamat_pengiriman')
+            ->where('id_pelanggan', Session::get('id_pelanggan'))
+            ->where('delete_alamat_pengiriman', 'N')
+            ->get();
+    
+        return view('profile.index', compact('data_pelanggan', 'page', 'addresses'));
     }
-
+    
         // public function myOrder(Request $request)
         // {
         //     // Filtering orders based on status
@@ -159,41 +165,40 @@ public function showProfile()
 }
 
 
- // Save new address
- public function save(Request $request)
- {
-     // Validate incoming request data
-     $request->validate([
-         'nama' => 'required|string|max:255',
-         'kodepos' => 'required|string|max:10',
-         'lat' => 'nullable|numeric',
-         'long' => 'nullable|numeric',
-         'lokasi' => 'required|string|max:255',
-         'status' => 'required|in:active,inactive',
-         'kota' => 'required|integer',
-     ]);
+public function save(Request $request)
+{
+    // Validate incoming request
+    $validated = $request->validate([
+        'kota' => 'required|integer',
+        'nama' => 'required|string',
+        'kodepos' => 'required|integer',
+        'status' => 'required|string',
+        'lat' => 'required|numeric',
+        'long' => 'required|numeric',
+        'lokasi' => 'required|string',
+    ]);
 
-     // Retrieve customer ID from session
-     $pelanggan = session()->get('id_pelanggan');
+    // Get the customer ID from session or any other means
+    $customerId = Session::get('id_pelanggan');
 
-     // Prepare values to insert
-     $values = [
-         'id_pelanggan' => $pelanggan,
-         'nama_alamat_pengiriman' => $request->nama,
-         'kodepos_alamat_pengiriman' => preg_replace('/\D/', '', $request->kodepos),
-         'lat_alamat_pengiriman' => $request->lat,
-         'long_alamat_pengiriman' => $request->long,
-         'lokasi_alamat_pengiriman' => $request->lokasi,
-         'status_alamat_pengiriman' => $request->status,
-         'id_kota' => $request->kota,
-     ];
+    // Insert address into database
+    DB::table('tb_alamat_pengiriman')->insert([
+        'id_pelanggan' => $customerId,
+        'id_kota' => $validated['kota'],
+        'nama_alamat_pengiriman' => $validated['nama'],
+        'kodepos_alamat_pengiriman' => $validated['kodepos'],
+        'lat_alamat_pengiriman' => $validated['lat'],
+        'long_alamat_pengiriman' => $validated['long'],
+        'lokasi_alamat_pengiriman' => $validated['lokasi'],
+        'status_alamat_pengiriman' => $validated['status'],
+        'delete_alamat_pengiriman' => 'N',
+    
+    ]);
 
-     // Insert into database
-     DB::table('tb_alamat_pengiriman')->insert($values);
+    return redirect()->route('profile')->with('success', 'Address added successfully!');
+}
 
-     // Redirect back to profile with address tab active
-     return redirect()->to('profile.address');
- }
+
 
  // Update existing address
  public function update(Request $request)

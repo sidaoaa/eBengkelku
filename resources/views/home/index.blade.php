@@ -92,7 +92,7 @@
       <div class="row">
         <div class="col-md-12">
           <h4 class="text-primary">
-            <i class='fa-regular fa-calendar-alt'></i> Latest Event
+            <i class='fa-regular fa-calendar'></i> Latest Event
           </h4>
           <p>&nbsp;</p>
         </div>
@@ -117,21 +117,22 @@
 
               <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <a href="{{ url()->current() }}?visit={{ $data_event->id_event }}" class="text-dark text-decoration-none">
-                  <div class="card h-100 d-flex flex-column">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     <img src="{{ $data_event->image_cover }}" class="card-img-top" alt="{{ $data_event->nama_event }}"
                       style="width: 100; height: auto;">
                     <div class="card-body">
                       <h5 class="card-title">{{ $data_event->nama_event }}</h5>
                       <p id="ellipsis">
-                        <i class="fa-regular fa-calendar-alt"></i>
-                        {{ date('d F', strtotime($data_event->event_start_date)) }} -
-                        {{ date('d F Y', strtotime($data_event->event_end_date)) }}
+                        <i class="fa-regular fa-calendar"></i>
+                        <small>{{ date('d F', strtotime($data_event->event_start_date)) }} -
+                          {{ date('d F Y', strtotime($data_event->event_end_date)) }}</small>
                       </p>
                       <p id="ellipsis">
                         <i class="fas fa-map-marker-alt"></i>
-                        {{ $data_event->alamat_event }}
+                        <small>{{ $data_event->alamat_event }}</small>
                       </p>
                       <p id="ellipsis">
+
                         <strong>{{ $harga }}</strong>
                       </p>
                     </div>
@@ -176,7 +177,7 @@
             @foreach ($bengkel as $data_bengkel)
               <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <a href="{{ route('workshop', ['visit' => $data_bengkel->id_bengkel]) }}" class="text-decoration-none">
-                  <div class="card h-100 d-flex flex-column">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     <img class="card-img-top" src="{{ $data_bengkel->foto_bengkel }}" alt="Image"
                       style="width: 100; height: auto;">
                     <div class="card-body">
@@ -224,20 +225,24 @@
           <div class="row">
             @foreach ($spare_part as $data_spare_part)
               <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <a href="{{ route('product', ['visit' => $data_spare_part->id_barang]) }}" class="text-decoration-none">
-                  <div class="card h-100 d-flex flex-column">
+                <a href="{{ route('product', ['visit' => $data_spare_part->id_barang]) }}"
+                  class="text-decoration-none">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     @if (is_null($data_spare_part->gambar))
                       <img class="card-img-top" src="{{ asset('images/image.png') }}" alt="Image"
                         style="width:100; height: auto;">
                       <div class="card-body">
                         <p id="ellipsis"><b>{{ $data_spare_part->nama_barang }}</b></p>
-                        <p class="mb-0">Rp. {{ number_format($data_spare_part->harga_jual) }}</p>
+                        <p id="ellipsis">Stock: {{ $data_spare_part->last_stock }}</p>
+                        <p class="mb-0"> <strong>Rp. {{ number_format($data_spare_part->harga_jual) }}</strong></p>
+                        &nbsp
                       @else
                         <img class="card-img-top" src="{{ $data_spare_part->gambar }}" alt="Image"
                           style="width:100; height: auto;">
                         <div class="card-body">
                           <p id="ellipsis"><b>{{ $data_spare_part->nama_barang }}</b></p>
-                          <p class="mb-0">Rp. {{ number_format($data_spare_part->harga_jual) }}</p>
+                          <p id="ellipsis">Stock: {{ $data_spare_part->last_stock }}</p>
+                          <p class="mb-0"><strong>Rp. {{ number_format($data_spare_part->harga_jual) }}</strong></p>
                     @endif
 
                     &nbsp
@@ -268,13 +273,11 @@
         </div>
 
         @if ($product->isEmpty())
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-body text-center">
-                  <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
-                  <p>Data saat ini tidak ditemukan.</p>
-                </div>
+          <div class="col-md-12">
+            <div class="card shadow h-100 d-flex flex-column" style="border: none;">
+              <div class="card-body text-center">
+                <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
+                <p>Data saat ini tidak ditemukan.</p>
               </div>
             </div>
           </div>
@@ -283,7 +286,7 @@
             @foreach ($product as $data_product)
               <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <a href="{{ route('product', ['visit' => $data_product->id_barang]) }}" class="text-decoration-none">
-                  <div class="card h-100 d-flex flex-column">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     <img class="card-img-top" src="{{ $data_product->img_cover }}" alt="Image"
                       style="width: 100%; height: auto;">
                     <div class="card-body">
@@ -318,7 +321,7 @@
 
         @if ($used_car->isEmpty())
           <div class="col-md-12">
-            <div class="card">
+            <div class="card shadow" style="border: none;">
               <div class="card-body text-center">
                 <img src="{{ url('logos/empty.png') }}" style="width: 150px;">
                 <p>Data saat ini tidak ditemukan.</p>
@@ -329,25 +332,34 @@
           <div class="col-md-12">
             <div class="owl-carousel owl-theme">
               @foreach ($used_car as $data_used_car)
-                <div class="item">
-                  <div class="card" style="cursor: pointer;">
+                <div class="item mb-5">
+                  <div class="card shadow" style="cursor: pointer; border: none; margin-right: 15px; margin-left:10px;">
                     <a href="{{ route('used_car.item', $data_used_car->id_mobil) }}">
                       <img class="card-img-top" src="{{ $data_used_car->foto_mobil ?: url('logos/produk/car.png') }}"
                         alt="Car Image" style="width:100%;">
                     </a>
                     <div class="card-body">
-                      <a href="{{ route('used_car.item', $data_used_car->id_mobil) }}">
-                        <p id="ellipsis"><b>{{ $data_used_car->jenis_mobil }} {{ $data_used_car->nama_mobil }}</b>
-                        </p>
-                      </a>
-                      <p class="card-text" id="ellipsis">Rp. {{ number_format($data_used_car->harga_mobil) }}</p>
+                      <p id="ellipsis">
+
+                        <a href="{{ route('used_car.item', $data_used_car->id_mobil) }}">
+                          <p
+                            style="margin: 0; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            {{ $data_used_car->jenis_mobil }} {{ $data_used_car->nama_mobil }}</p>
+                        </a>
+                      </p>
+                      <p class="card-text"
+                        style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rp.
+                        {{ number_format($data_used_car->harga_mobil) }}</p>
+                      &nbsp
                     </div>
+
                   </div>
                 </div>
               @endforeach
             </div>
           </div>
         @endif
+
 
         <div class="col-md-12 text-center">
           <p>&nbsp;</p>
@@ -360,5 +372,4 @@
       </div>
     </div>
   </section>
-
 @endsection

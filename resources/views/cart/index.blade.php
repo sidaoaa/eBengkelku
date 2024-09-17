@@ -187,7 +187,7 @@
                 </div>
               @else
                 <div class="text-center">
-                  <img src="{{ asset('logos/empty.png') }}" style="width: 350px;">
+                  <img src="{{ asset('logos/empty.png') }}" style="width: 150px;">
                   <p>Opps.. Still empty.</p>
                 </div>
               @endif

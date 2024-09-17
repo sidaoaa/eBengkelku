@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
   <section class="section section-white"
     style="position: relative; overflow: hidden; padding-top: 100px; padding-bottom: 20px;">
     <div
@@ -33,7 +31,7 @@
                 <div class="col-md-6">
                   <form method="POST" enctype="multipart/form-data" action="{{ route('address.save') }}">
                     @csrf
-                    <!-- input fields -->
+
                     <label>City</label>
                     <select name="kota" class="form-control" required>
                       @php
@@ -58,7 +56,7 @@
                     <label>Pos Code</label>
                     <input type="number" name="kodepos" class="form-control" required placeholder="Required ..."><br>
 
-                    <label>Status</label>
+                    <label>State</label>
                     <select name="status" class="form-control" required>
                       @foreach (['Home', 'Office'] as $status)
                         <option value="{{ $status }}">{{ $status }}</option>
@@ -66,7 +64,7 @@
                     </select></br>
 
                     <div class="form-group">
-                      <label>Location</label>
+                      <label>Location Google Maps</label>
                       <input type="text" name="lokasi" id="location" required placeholder="Find Location ..."
                         style="width: 90%; border-radius: 5px; border: 1px solid lightgrey; padding: 5px 15px; margin: 15px;">
                       <div id="map" style="width: 100%; height: 300px; margin: 0px; border-radius: 5px;"></div>
@@ -87,15 +85,6 @@
                       Done
                     </button>
                   </form>
-                  @if ($errors->any())
-                    <div class="alert alert-danger">
-                      <ul>
-                        @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  @endif
                 </div>
               </div>
             </div>
@@ -105,46 +94,68 @@
     </div>
   </section>
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
   <script type="text/javascript">
-    function initLeafletMap() {
-      var map = L.map('map').setView([-6.1815249, 106.3924981], 7);
-
-      // Add the OpenStreetMap tiles
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap'
-      }).addTo(map);
-
-      var marker;
-
-      // Set up event listener for map clicks to place the marker
-      map.on('click', function(e) {
-        if (marker) {
-          map.removeLayer(marker); // Remove previous marker
-        }
-
-        marker = L.marker(e.latlng).addTo(map); // Add a new marker
-        document.getElementById("lat").value = e.latlng.lat; // Update the lat input
-        document.getElementById("long").value = e.latlng.lng; // Update the long input
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById("map"), {
+        center: {
+          lat: -6.1815249,
+          lng: 106.3924981
+        },
+        zoom: 7,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
       });
 
-      // Handle form submission with preset latitude and longitude
-      var latInput = document.getElementById("lat");
-      var lngInput = document.getElementById("long");
+      var input = document.getElementById("location");
+      var searchBox = new google.maps.places.SearchBox(input);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-      if (latInput.value && lngInput.value) {
-        var presetLatLng = L.latLng(latInput.value, lngInput.value);
-        marker = L.marker(presetLatLng).addTo(map);
-        map.setView(presetLatLng, 13);
-      }
+      map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+      });
+
+      searchBox.addListener("places_changed", function() {
+        var places = searchBox.getPlaces();
+        if (places.length === 0) return;
+
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+          if (!place.geometry) return;
+
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+
+          if (place.geometry.viewport) {
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+
+          document.getElementById('lat').value = place.geometry.location.lat();
+          document.getElementById('long').value = place.geometry.location.lng();
+        });
+        map.fitBounds(bounds);
+      });
+
+      map.addListener('click', function(event) {
+        var marker = new google.maps.Marker({
+          position: event.latLng,
+          map: map
+        });
+        document.getElementById("lat").value = event.latLng.lat();
+        document.getElementById("long").value = event.latLng.lng();
+      });
     }
 
-    // Initialize Leaflet map when the document is ready
+    // Add script tag for Google Maps API with async and defer
     document.addEventListener("DOMContentLoaded", function() {
-      initLeafletMap();
+      var script = document.createElement('script');
+      script.src = "https://maps.googleapis.com/maps/api/js?key=YOUR_VALID_API_KEY&libraries=places&callback=initMap";
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
     });
   </script>
-
 @endsection

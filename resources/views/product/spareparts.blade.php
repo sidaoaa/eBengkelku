@@ -41,21 +41,23 @@
             <div class="row">
               @foreach ($spare_parts as $spare_part)
                 <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
+
                   <a href="{{ route('product.detail', ['id' => $spare_part->id_barang, 'ps' => 2]) }}"
-                    class="card h-100 text-decoration-none text-dark">
+                    class="card shadow h-100 d-flex flex-column" style="border: none;">
                     @if (is_null($spare_part->gambar))
                       <img class="card-img-top" src="{{ asset('images/image.png') }}" alt="Image"
-                        style="width:100%; height: 200px; object-fit: cover;">
+                        style="width: 100%; height: 230px; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat;">
                     @else
                       <img class="card-img-top" src="{{ $spare_part->gambar }}" alt="Image"
-                        style="width:100%; height: 200px; object-fit: cover;">
+                        style="width: 100%; height: 230px; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat;">
                     @endif
                     <div class="card-body">
                       <p id="ellipsis" class="font-weight-bold">{{ $spare_part->nama_barang }}</p>
                       <p id="ellipsis">Rp. {{ number_format($spare_part->harga_jual, 0, ',', '.') }}</p>
                       <p id="ellipsis" class="text-muted" style="font-size: 12px;">
-                        <i class="bx bxs-car-garage"></i> {{ $spare_part->nama_bengkel }}
+                        <i class="bx bxs-car-garage"></i>{{ $spare_part->nama_bengkel }}
                       </p>
+
                     </div>
                   </a>
                 </div>

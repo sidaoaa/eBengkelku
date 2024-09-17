@@ -77,6 +77,7 @@ Route::prefix('used_car')->group(function () {
     Route::get('item/{id}', [UsedCarController::class, 'itemCar'])->name('used_car.item');
     Route::get('owner/{id}', [UsedCarController::class, 'owner'])->name('usedcar.owner');
     Route::post('filter', [UsedCarController::class, 'filterCar'])->name('filter.car');
+    
 });
 
 
@@ -96,7 +97,6 @@ Route::prefix('profile')->group(function () {
   
 
 
-    route::post('/profile/address/save', [ProfileController::class, 'save'])->name('address.save');
     route::post('/profile/address/save', [ProfileController::class, 'save'])->name('address.save');
     route::post('/profile/address/update', [ProfileController::class, 'update'])->name('address.update');
     route::post('/profile/address/delete', [ProfileController::class, 'delete'])->name('address.delete');

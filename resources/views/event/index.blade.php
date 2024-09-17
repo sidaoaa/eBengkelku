@@ -136,7 +136,7 @@
               <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <a href="{{ url()->current() }}?visit={{ $data_event->id_event }}"
                   class="text-dark text-decoration-none">
-                  <div class="card h-100">
+                  <div class="card shadow h-100 d-flex flex-column" style="border: none;">
                     <img src="{{ $data_event->image_cover }}" class="card-img-top" alt="{{ $data_event->nama_event }}"
                       style="height: 200px; object-fit: cover;">
                     <div class="card-body">

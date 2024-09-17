@@ -169,6 +169,33 @@
                             disabled>
                         </div>
                       </div>
+
+                      <!-- Address Section -->
+                      <div class="col-md-12">
+                        <label for="address">Address List</label>
+                        <ul class="list-group">
+                          @if (isset($addresses) && $addresses->isEmpty())
+                            <li class="list-group-item">No address found</li>
+                          @else
+                            @foreach ($addresses as $address)
+                              <div class="card mb-3">
+                                <div class="card-body">
+                                  <h6 class="card-title">{{ $address->lokasi_alamat_pengiriman }}</h6>
+                                  <p class="card-text">
+                                    {{ $address->nama_alamat_pengiriman }}<br>
+                                    {{ $address->kodepos_alamat_pengiriman }}<br>
+                                    <b>Status:</b> {{ $address->status_alamat_pengiriman }}<br>
+                                    <b>Coordinates:</b> ({{ $address->lat_alamat_pengiriman }},
+                                    {{ $address->long_alamat_pengiriman }})
+                                  </p>
+                                </div>
+
+                              </div>
+                            @endforeach
+                          @endif
+                        </ul>
+                      </div>
+
                     </div>
                   </div>
                 </div>
