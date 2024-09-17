@@ -98,9 +98,7 @@ class WorkshopSellerController extends Controller
             'close_time' =>  $request->close_time,
             'status_bengkel' => 'Active',
             'create_bengkel' => $request->create_bengkel ?? null, // Tangani nilai null jika perlu
-            'delete_bengkel' => $request->delete_bengkel ?? 'N', // Tangani nilai null jika perlu
-            // 'created_at' => now(), // Hapus jika tidak diperlukan
-            // 'updated_at' => now(), // Hapus jika tidak diperlukan
+            'delete_bengkel' => $request->delete_bengkel ?? 'N', 
         ]);
         
         // Cek apakah insert berhasil
