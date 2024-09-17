@@ -21,7 +21,6 @@ class LoginController extends Controller
     {
         return view('login.register');
     }
-
     public function signin(Request $request)
     {
         $email = $request->email;
@@ -38,14 +37,18 @@ class LoginController extends Controller
         } else {
             $data_pelanggan = $pelanggan->first();
 
+            // Simpan session pelanggan
             Session::put('id_pelanggan', $data_pelanggan->id_pelanggan);
 
+            // Simpan log login
             $values = [
                 'id_pelanggan' => $data_pelanggan->id_pelanggan,
                 'tgl_log_pelanggan' => now(),
+                'delete_log_pelanggan' => 'N' // Pastikan ini sesuai dengan kolom di database
             ];
-
             DB::table('tb_log_pelanggan')->insert($values);
+
+            // Tambahkan penghitungan history access ke tabel atau session (optional)
 
             return redirect()->route('home');
         }

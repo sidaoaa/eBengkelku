@@ -6,7 +6,7 @@
             <input type="text" id="search" class="h-10 px-4 w-full max-w-md border rounded-md" placeholder="Search">
         </div>
         <div class="mb-4 mt-10">
-            <a href="{{ route('workshop.create') }}"
+            <a href="{{ route('workshop_seller.create') }}"
                 class="bg-sky-400 text-white flex items-center px-4 font-medium text-xs sm:text-sm md:text-base py-1 sm:py-2 rounded-lg shadow-lg">
                 Add Workshop
             </a>

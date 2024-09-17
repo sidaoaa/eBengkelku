@@ -83,7 +83,7 @@
         aria-label="Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-neutral-100 border-r">
             <ul class="space-y-2 font-medium text-sm">
-                <a href="{{ route('dashboard') }}" class="mb-2">
+                <a href="{{ route('profile.dashboard') }}" class="mb-2">
                     <li
                         class="flex items-center p-4 rounded-md hover:bg-blue-500 hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white' : '' }}">
                         <i class="fa-solid fa-house-chimney mx-3"></i><span>Dashboard</span>
@@ -100,7 +100,7 @@
                 </li>
 
                 <ul class="space-y-2 ml-8 hidden" id="master-data-menu">
-                    <a href="{{ route('workshop.setting') }}" class="block mb-2 items-center">
+                    <a href="{{ route('workshop_seller.setting') }}" class="block mb-2 items-center">
                         <li
                             class="submenu-item transform transition-all duration-300 hover:translate-x-2 flex items-center p-2 rounded-md hover:bg-sky-500 hover:text-white {{ request()->routeIs('admin.brand.index') ? ' text-white' : '' }}">
                             <i class="fa-solid fa-city mx-4"></i><span>My Workshop</span>

@@ -2,6 +2,7 @@
 @section('content')
     @php
         $getInvoice = DB::table('t_invoice')->where('id_customer', Session::get('id_pelanggan'))->get();
+        // dd($getInvoice);
     @endphp
     <div class="flex flex-col sm:flex-row justify-between items-center mt-8">
         <div class="mb-4 mt-10 flex-1">
@@ -11,7 +12,7 @@
                     <div class="text-lg font-bold">List Invoice</div>
                 </div>
                 <!-- Card Body -->
-                <div class="p-4">
+                <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>

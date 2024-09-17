@@ -1,24 +1,26 @@
 <?php
 
-use Illuminate\Container\Attributes\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\WorkshopController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UsedCarController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\AccessHistoryController;
 use App\Http\Controllers\AddressDeliveryController;
-use App\Http\Controllers\WorkshopSellerController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MySaleController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductSellerController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceSellerController;
 use App\Http\Controllers\SparePartSellerController;
-use App\Http\Controllers\ProductSellerController;
+use App\Http\Controllers\UsedCarController;
 use App\Http\Controllers\UsedCarSellerController;
-use App\Http\Controllers\MySaleController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\WorkshopController;
+use App\Http\Controllers\WorkshopSellerController;
+use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -73,7 +75,6 @@ Route::post('books/store', [WorkshopController::class, 'store'])->name('ulasan')
 // Rute untuk Produk
 Route::prefix('product')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('product');
-
     Route::get('detail/{id}/{ps}', [ProductController::class, 'detail'])->name('product.detail');
     Route::post('add-to-cart/{id}/{ps}', [ProductController::class, 'add_to_cart'])->name('product.add_to_cart');
 });
@@ -140,15 +141,15 @@ Route::prefix('cart')->group(function () {
 // Rute untuk Penjual Workshop
 Route::prefix('workshop_seller')->group(function () {
     Route::post('pagination', [WorkshopSellerController::class, 'pagination'])->name('workshop_seller.pagination');
-    Route::post('save', [WorkshopSellerController::class, 'save'])->name('workshop_seller.save');
+    Route::post('store', [WorkshopSellerController::class, 'store'])->name('workshop_seller.store');
     Route::post('update', [WorkshopSellerController::class, 'update'])->name('workshop_seller.update');
     Route::post('delete', [WorkshopSellerController::class, 'delete'])->name('workshop_seller.delete');
-    Route::get('/workshop/setting', [WorkshopSellerController::class, 'index'])->name('workshop.setting');
-    Route::get('/workshop/create', [WorkshopSellerController::class, 'create'])->name('workshop.create');
-    // Route::post('save', [WorkshopSellerController::class, 'save'])->name('workshop_seller.save');
-    // Route::post('/workshop/pagination', [WorkshopSellerController::class, 'pagination'])->name('workshop.pagination');
-    // Route::post('/workshop/delete', [WorkshopSellerController::class,'delete'])->name('workshop.delete');
+    Route::get('workshop/setting', [WorkshopSellerController::class, 'index'])->name('workshop_seller.setting');
+    Route::get('workshop/create', [WorkshopSellerController::class, 'create'])->name('workshop_seller.create');
 });
+
+// History Access Log
+Route::get('/dashboard/history', [AccessHistoryController::class, 'showHistory'])->name('history.show');
 
 // Rute untuk Penjual Service
 Route::prefix('service_seller')->group(function () {
